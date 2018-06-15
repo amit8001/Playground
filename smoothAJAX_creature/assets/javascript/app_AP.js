@@ -1,8 +1,6 @@
 
 var animals = ["dog","ferret","turtle","hamster"];
 var img;
-var gifStart;
-var gifEnd;
 
 renderbtns();
 
@@ -39,7 +37,6 @@ function addChar(){
 //var lmt = 0;
 var clicked_gif;
 $(document).on("click", ".btn_creature",function(){
-    gifStart=0;
   //  lmt = 0;
     $("#creature_gifs").empty();
     console.log("You clicked on "+$(this).text());
@@ -61,7 +58,7 @@ $(document).on("click", ".new_gifs",function(){
     //lmt+=10;
     //$("#creature_gifs").empty();
     $(".div_ld_new_img").remove();
-    var queryURL = "https://api.giphy.com/v1/gifs/search?q="+clicked_gif+"&api_key=dc6zaTOxFJmzC&limit=25";
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q="+clicked_gif+"&api_key=dc6zaTOxFJmzC&limit=10";
     console.log(queryURL);
 
     $.ajax({
@@ -92,10 +89,8 @@ if (state == "still") {
 
 var load_gifs_api_call = function(response) {
   
-    gifEnd=(gifStart+10);
-    console.log(response)
        
-    for (i=gifStart; i<gifEnd;i++){
+    for (i=0; i<response.data.length;i++){
        //create a div/block for each image with text
         if (response.data[i].rating.toLowerCase() !="r"){ 
             rtdiv = $("<div>");
@@ -114,7 +109,8 @@ var load_gifs_api_call = function(response) {
             rtdiv.append(img);
 
             $("#creature_gifs").append(rtdiv);
-            gifStart++;
+
+                  
         }
     }  
 
@@ -124,7 +120,7 @@ var load_gifs_api_call = function(response) {
     btn_load_new.addClass("new_gifs");
     btn_load_new.addClass("btn");
     btn_load_new.addClass("btn-primary");
-    btn_load_new.text("Load More Images");   
+    btn_load_new.text("Load 10 more images");   
     div_ld_new_img.append(btn_load_new);
     $("#creature_gifs").append(div_ld_new_img);
     };
